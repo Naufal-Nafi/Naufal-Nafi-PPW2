@@ -11,8 +11,8 @@
     <header>
         <h1>Website Laravel Sederhana</h1>
         <nav>
-            <a href="/home2">Home</a>
-            <a href="/about2">About</a>
+            <a href="/home">Home</a>
+            <a href="/about">About</a>
             <a href="/contact">Contact</a>
         </nav>
     </header>
