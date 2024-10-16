@@ -1,2 +1,3 @@
-alert("#fsgout")
+//alert("#fsgout")
+import './bootstrap';
 
