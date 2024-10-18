@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoginRegisterController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -67,7 +68,7 @@ Route::get('/contact', [ContactController::class, 'index']);
 
 //mulai Buku
 
-Route::get('/buku', [BukuController::class, 'index']);
+Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');
 
 Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
 Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
@@ -79,3 +80,14 @@ Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('buku.dest
 Route::get('/buku/edit/{id}', [BukuController::class, 'edit'])->name('buku.edit');
 Route::put('/buku/{id}', [BukuController::class, 'update'])->name('buku.update');
 
+
+
+// Autentikasi
+Route::controller(LoginRegisterController::class)->group(function() {
+    Route::get('/register', 'register')->name('register');
+    Route::post('/store', 'store')->name('store');
+    Route::get('/login', 'login')->name('login');
+    Route::post('/authenticate', 'authenticate')->name('authenticate');
+    Route::get('/dashboard', 'dashboard')->name('dashboard');
+    Route::post('/logout', 'logout')->name('logout');
+});
