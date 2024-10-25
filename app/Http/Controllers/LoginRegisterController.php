@@ -33,11 +33,11 @@ class LoginRegisterController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
-        $credentials = $request->only('email','password');
-        Auth::attempt($credentials);
-        $request->session()->regenerate();
-        return redirect()->route('dashboard')
-            ->withSuccess('You have successfully registered and logged in!');
+        // $credentials = $request->only('email','password');
+        // Auth::attempt($credentials);
+        // $request->session()->regenerate();
+        return redirect()->route('login');
+            // ->withSuccess('You have successfully registered and logged in!');
     }
 
     public function login() {
@@ -53,7 +53,7 @@ class LoginRegisterController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             // return redirect()->route('dashboard')
-            return redirect()->route('buku.index')
+            return redirect()->route('dashboard')
                 ->withSuccess('You have successfully logged in!');
         }
 
@@ -63,14 +63,15 @@ class LoginRegisterController extends Controller
     }
 
     public function dashboard() {
-        if (Auth::check()) {
-            return view('auth.dashboard');
-        }
+        // if (Auth::check()) {
+        //     return view('auth.dashboard');
+        // }
 
-        return redirect()->route('login')
-            ->withErrors([
-                'email' => 'please login to access the dashboard.'
-            ])->onlyInput('email');
+        // return redirect()->route('login')
+        //     ->withErrors([
+        //         'email' => 'please login to access the dashboard.'
+        //     ])->onlyInput('email');
+        return view('auth.dashboard');
     }
 
     public function logout(Request $request) {
@@ -78,6 +79,6 @@ class LoginRegisterController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login')
-            ->withSuccess('You have ;ogged out succesfully!');
+            ->withSuccess('You have logged out succesfully!');
     }
 }

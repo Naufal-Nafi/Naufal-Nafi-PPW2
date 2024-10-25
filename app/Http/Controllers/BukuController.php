@@ -20,13 +20,14 @@ class BukuController extends Controller
         $total_buku = $data_buku->count();
         $total_harga = $data_buku->sum('harga');
         
-        if (Auth::check()) {
-            return view('buku.index', compact('data_buku', 'total_buku', 'total_harga'));
-        }
-        return redirect()->route('login')
-            ->withErrors([
-                'email' => 'please login to access the dashboard.'
-            ])->onlyInput('email');
+        // if (Auth::check()) {
+        //     return view('buku.index', compact('data_buku', 'total_buku', 'total_harga'));
+        // }
+        // return redirect()->route('login')
+        //     ->withErrors([
+        //         'email' => 'please login to access the dashboard.'
+        //     ])->onlyInput('email');
+        return view('buku.index', compact('data_buku', 'total_buku', 'total_harga'));
     }
 
     /**
@@ -34,14 +35,14 @@ class BukuController extends Controller
      */
     public function create()
     {
-        if (Auth::check()) {
-            return view('buku.create');
-        }
-        return redirect()->route('login')
-            ->withErrors([
-                'email' => 'please login to access the dashboard.'
-            ])->onlyInput('email');
-        // return view('buku.create');
+        // if (Auth::check()) {
+        //     return view('buku.create');
+        // }
+        // return redirect()->route('login')
+        //     ->withErrors([
+        //         'email' => 'please login to access the dashboard.'
+        //     ])->onlyInput('email');
+        return view('buku.create');
     }
 
     /**

@@ -1,40 +1,49 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset=""UTF-8>
-        <meta http-equiv="X-UA-compatible" content="IE=edge">
-        {{-- <meta name="wiewport" content="width-device-width, initial-scale" --}}
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-        <style>
-            #footer{
-                width: 100%;
-                height: auto;
-                padding-top: 20px;
-                padding-bottom: 20px;
-                background-color: gray;
-                color: white;
-            }
+<head>
+    <meta charset="" UTF-8>
+    <meta http-equiv="X-UA-compatible" content="IE=edge">
+    {{--
+    <meta name="wiewport" content="width-device-width, initial-scale" --}} <link rel="stylesheet"
+        href="{{ asset('css/style.css') }}">
 
-        </style>
-    </head>
+    @vite('resources/sass/app.scss', 'resources/js/app.js')
 
-    <body>
+    <style>
+        #footer {
+            width: 100%;
+            height: auto;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            background-color: gray;
+            color: white;
+        }
+    </style>
+</head>
 
-        <div class="topnav">
-            <a class="active" href="#home">Home</a>
-            <a href="#news">News</a>
-            <a href="#contact">Contact</a>
-            <a href="#about">About</a>
-        </div>
+<body>
 
-        @yield('content')
+    <div class="topnav">
+        <a class="active" href="#home">Home</a>
+        <a href="#news">News</a>
+        <a href="#contact">Contact</a>
+        <a href="#about">About</a>
+    </div>
 
-        <div id="footer">
-            <h1>INI FOOTER</h1>
-        </div>
+    @yield('content')
 
-        <script src="{{asset('js/script.js')}}"></script>
-    </body>
+    <div id="footer">
+        <h1>INI FOOTER</h1>
+    </div>
+
+    <script type="text/javascript">
+        $('.date').datepicker({
+            format: 'yyyy/mm/dd',
+            autoclose: 'true'
+        });
+    </script>
+    <script src="{{asset('js/script.js')}}"></script>
+</body>
+
 </html>
-
