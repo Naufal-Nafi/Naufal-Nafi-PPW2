@@ -10,7 +10,7 @@
 
     @vite('resources/sass/app.scss', 'resources/js/app.js')
 
-    <style>
+    <!-- <style>
         #footer {
             width: 100%;
             height: auto;
@@ -19,7 +19,7 @@
             background-color: gray;
             color: white;
         }
-    </style>
+    </style> -->
 </head>
 
 <body>

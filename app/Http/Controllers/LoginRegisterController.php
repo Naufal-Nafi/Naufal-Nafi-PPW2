@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+
 class LoginRegisterController extends Controller
 {
     public function __construct() {
@@ -59,7 +60,7 @@ class LoginRegisterController extends Controller
 
         return back()->withErrors([
             'email' => 'Your provided credentials do not match in our records.'
-        ])->onlyInput('email');
+        ]);
     }
 
     public function dashboard() {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BukuController extends Controller
 {
@@ -50,11 +51,24 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'photo' => 'image|nullable|max:1999'
+        ]);
+
+        if ($request->hasFile('photo')) {
+            $filenameWithExt = $request->file('photo')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('photo')->getClientOriginalExtension();
+            $filenameSimpan = $filename . '_' . time() . '.' . $extension;
+            $path = $request->file('photo')->storeAs('photos', $filenameSimpan);
+        } 
+
         $buku = new Buku();
         $buku->judul = $request->judul;
         $buku->penulis = $request->penulis;
         $buku->harga = $request->harga;
         $buku->tgl_terbit = $request->tgl_terbit;
+        $buku->photo = $path ?? null;
         
         $buku->save();
 
@@ -81,17 +95,47 @@ class BukuController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $buku = Buku::find($id);
-        $buku->judul = $request->judul;
-        $buku->penulis = $request->penulis;
-        $buku->harga = $request->harga;
-        $buku->tgl_terbit = $request->tgl_terbit;
+    public function update(Request $request, $id)
+{
+    // Validasi data
+    $request->validate([
+        'photo' => 'image|nullable|max:1999',
+    ]);
 
-        $buku->save();
-        return redirect('/buku');
+    // Temukan buku berdasarkan ID
+    $buku = Buku::findOrFail($id);
+
+    // Update kolom data buku
+    $buku->judul = $request->judul;
+    $buku->penulis = $request->penulis;
+    $buku->harga = $request->harga;
+    $buku->tgl_terbit = $request->tgl_terbit;
+
+    // Cek apakah ada file baru yang diunggah
+    if ($request->hasFile('photo')) {
+        // Hapus foto lama jika ada
+        if ($buku->photo && \Storage::exists($buku->photo)) {
+            \Storage::delete($buku->photo);
+        }
+
+        // Simpan foto baru
+        $filenameWithExt = $request->file('photo')->getClientOriginalName();
+        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        $extension = $request->file('photo')->getClientOriginalExtension();
+        $filenameSimpan = $filename . '_' . time() . '.' . $extension;
+        $path = $request->file('photo')->storeAs('photos', $filenameSimpan);
+
+        // Update kolom photo dengan path baru
+        $buku->photo = $path;
     }
+
+    // Simpan perubahan ke database
+    $buku->save();
+
+    // Redirect atau respons sesuai kebutuhan
+    return redirect()->route('buku.index')->with('success', 'Data buku berhasil diperbarui');
+}
+
 
     /**
      * Remove the specified resource from storage.

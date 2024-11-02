@@ -11,7 +11,8 @@
 <body>
     <h1>Posts</h1>
     <?php                
-    $message = Session::get('error')
+    $message = Session::get('error');
+    echo asset('storage/file.txt')
 ?>
     <div class="alert alert-danger">
         {{$message}}
