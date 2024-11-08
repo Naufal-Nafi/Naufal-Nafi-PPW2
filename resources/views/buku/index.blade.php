@@ -1,8 +1,7 @@
 @extends('auth.layouts')
 @section('content')
 
-<div class="d-flex justify-content-between">
-    <p ><a href="{{ route('dashboard') }}" class="btn btn-primary m-3">Dashboard</a></p>
+<div class="d-flex justify-content-between">    
     <p ><a href="{{ route('buku.create') }}" class="btn btn-primary m-3">Tambah Buku</a></p>
 </div>
 <table class="table">

@@ -22,14 +22,11 @@
                 placeholder="Masukkan tanggal terbit">
         </div>
         <div class="mb-4">
-            <label for="photo" class="form-label">Photo</label>
-            <!-- Image Preview -->
+            <label for="photo" class="form-label">Photo</label>            
             <img id="photo-preview" src="#" alt="Image Preview"
                 style="display: none; width: 200px; margin-bottom: 10px;">
-
             <input type="file" name="photo" id="photo" class="form-control image-input" value="{{ old('photo') }}"
                 onchange="previewImage(event)">
-
             @if ($errors->has('photo'))
                 <span class="text-danger">{{ $errors->first('photo') }}</span>
             @endif

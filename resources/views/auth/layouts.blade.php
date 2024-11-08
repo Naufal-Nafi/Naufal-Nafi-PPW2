@@ -5,13 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    @vite('resources/sass/app.scss', 'resources/js/app.js')
+    <link rel="stylesheet" href="{{ asset('lightbox2/dist/css/lightbox.min.css') }}">
+    </link>
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <style>
+        img {
+            transition: 0.4s;
+        }
+
+        img:hover {
+            border-radius: 15px;
+
+        }
+    </style>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Toko Buku Khan</a>
+            <a class="navbar-brand" href="#">Toko Buku Felisa</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -35,8 +47,13 @@
                                 {{ Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); 
-                                document.getElementById('logout-form').submit();">Logout</a>
+                                <li>
+                                    <a class="nav-link {{ (request()->is('buku')) ? 'active' : '' }}"
+                                        href="{{ route('buku.index') }}">Buku</a>
+                                    <a class="nav-link {{ (request()->is('gallery')) ? 'active' : '' }}"
+                                        href="{{ route('gallery.index') }}">Gallery</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); 
+                                        document.getElementById('logout-form').submit();">Logout</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST">
                                         @csrf
                                     </form>
@@ -70,6 +87,7 @@
         }
     </script>
 
+    <script src="{{ asset('lightbox2/dist/js/lightbox-plus-jquery.min.js') }}"></script>
 
 
 </body>
