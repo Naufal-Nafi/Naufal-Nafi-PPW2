@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginRegisterController;
 use App\Http\Controllers\PostController;
@@ -80,6 +81,8 @@ Route::controller(LoginRegisterController::class)->group(function () {
         Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
         Route::get('/buku/edit/{id}', [BukuController::class, 'edit'])->name('buku.edit');
         Route::put('/buku/{id}', [BukuController::class, 'update'])->name('buku.update');
+
+        Route::resource('gallery', GalleryController::class);
     });
     Route::post('/logout', 'logout')->name('logout');
 });

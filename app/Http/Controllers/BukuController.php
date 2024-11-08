@@ -20,7 +20,7 @@ class BukuController extends Controller
 
         $total_buku = $data_buku->count();
         $total_harga = $data_buku->sum('harga');
-        
+
         // if (Auth::check()) {
         //     return view('buku.index', compact('data_buku', 'total_buku', 'total_harga'));
         // }
@@ -61,7 +61,7 @@ class BukuController extends Controller
             $extension = $request->file('photo')->getClientOriginalExtension();
             $filenameSimpan = $filename . '_' . time() . '.' . $extension;
             $path = $request->file('photo')->storeAs('photos', $filenameSimpan);
-        } 
+        }
 
         $buku = new Buku();
         $buku->judul = $request->judul;
@@ -69,7 +69,7 @@ class BukuController extends Controller
         $buku->harga = $request->harga;
         $buku->tgl_terbit = $request->tgl_terbit;
         $buku->photo = $path ?? null;
-        
+
         $buku->save();
 
         return redirect('/buku');
@@ -96,45 +96,36 @@ class BukuController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-{
-    // Validasi data
-    $request->validate([
-        'photo' => 'image|nullable|max:1999',
-    ]);
+    {
+        $request->validate([
+            'photo' => 'image|nullable|max:1999',
+        ]);
 
-    // Temukan buku berdasarkan ID
-    $buku = Buku::findOrFail($id);
+        $buku = Buku::findOrFail($id);
 
-    // Update kolom data buku
-    $buku->judul = $request->judul;
-    $buku->penulis = $request->penulis;
-    $buku->harga = $request->harga;
-    $buku->tgl_terbit = $request->tgl_terbit;
+        $buku->judul = $request->judul;
+        $buku->penulis = $request->penulis;
+        $buku->harga = $request->harga;
+        $buku->tgl_terbit = $request->tgl_terbit;
 
-    // Cek apakah ada file baru yang diunggah
-    if ($request->hasFile('photo')) {
-        // Hapus foto lama jika ada
-        if ($buku->photo && \Storage::exists($buku->photo)) {
-            \Storage::delete($buku->photo);
+        if ($request->hasFile('photo')) {
+            if ($buku->photo && \Storage::exists($buku->photo)) {
+                \Storage::delete($buku->photo);
+            }
+
+            $filenameWithExt = $request->file('photo')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('photo')->getClientOriginalExtension();
+            $filenameSimpan = $filename . '_' . time() . '.' . $extension;
+            $path = $request->file('photo')->storeAs('photos', $filenameSimpan);
+
+            $buku->photo = $path;
         }
 
-        // Simpan foto baru
-        $filenameWithExt = $request->file('photo')->getClientOriginalName();
-        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-        $extension = $request->file('photo')->getClientOriginalExtension();
-        $filenameSimpan = $filename . '_' . time() . '.' . $extension;
-        $path = $request->file('photo')->storeAs('photos', $filenameSimpan);
+        $buku->save();
 
-        // Update kolom photo dengan path baru
-        $buku->photo = $path;
+        return redirect()->route('buku.index');
     }
-
-    // Simpan perubahan ke database
-    $buku->save();
-
-    // Redirect atau respons sesuai kebutuhan
-    return redirect()->route('buku.index')->with('success', 'Data buku berhasil diperbarui');
-}
 
 
     /**
