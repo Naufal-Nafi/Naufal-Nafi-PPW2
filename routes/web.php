@@ -7,6 +7,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginRegisterController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SendEmailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -92,3 +93,11 @@ Route::get('restricted', function () {
         ->with('success', 'Anda berusia lebih dari 18 tahun!');
 })->middleware('checkage');
 
+Route::get('/send-mail', [SendEmailController::class,'index'])
+->name('kirim-email');
+
+Route::resource('email', SendEmailController::class);
+
+Route::view('/email', 'sendemail')->name('ngirim-email');
+
+Route::post('/post-email', [SendEmailController::class,'store'])->name('post-email');
